@@ -47,7 +47,7 @@ function_cloneGitProject() {
 
 	bare_dir=$GIT_BARE_DIR/$project_name.git
 #	git clone $USER@$GIT_HOSTNAME:$bare_dir $project_name
-	echo git clone file:///$bare_dir $project_name
+	git clone file:///$bare_dir $project_name
 
 }
 
