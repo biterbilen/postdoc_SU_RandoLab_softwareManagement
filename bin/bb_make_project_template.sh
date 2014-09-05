@@ -42,9 +42,9 @@ function_configGitUser() {
 # Enforces project directory structure
 function_cloneGitProject() {
 	project_tag=$1
-	project_user=$2
-	project_owner=$3
-	clone_project_tag=${4:-$project_tag}
+	project_user=${2:-$USER}
+	project_owner=${3:-$USER}
+	clone_project_tag=${4:-${project_tag}_clone}
 
 	project_name=`bb_getProjectName $project_tag $project_user $project_owner`
 	bare_dir=$GIT_BARE_DIR/$project_name.git
