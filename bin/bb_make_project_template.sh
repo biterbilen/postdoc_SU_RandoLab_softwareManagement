@@ -85,7 +85,7 @@ function_makeGitProject() {
 	mkdir -p $local_dir
 	pushd $local_dir
 	git init
-	git remote add origin $USER@$GIT_HOSTNAME:$bare_dir
+#	git remote add origin $USER@$GIT_HOSTNAME:$bare_dir
 	mkdir -p bin doc data results/`date -I`
 	popd
 }
