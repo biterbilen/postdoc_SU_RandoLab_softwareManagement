@@ -26,7 +26,8 @@ set -o nounset                              # Treat unset variables as an error
 # 3 TODO from the above document; is it possible to add an http git interface w lighttpd webrick
 
 #GIT_HOSTNAME=sherlock.stanford.edu
-GIT_LOCAL_DIR=$PI_SCRATCH/Projects #or $SCRATCH for own projects
+#GIT_LOCAL_DIR=$PI_SCRATCH/Projects #or $SCRATCH for own projects
+GIT_LOCAL_DIR=/home/biter/OAK/Projects #or $SCRATCH for own projects
 GIT_BARE_DIR=$PI_HOME/Projects.git
 
 function_configGitUser() {
