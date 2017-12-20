@@ -30,6 +30,7 @@ function_install_quasiseq() {
 function_install_subread() {
 	lnk=http://sourceforge.net/projects/subread/files/subread-1.4.6-p4/subread-1.4.6-p4-source.tar.gz
 	lnk=https://sourceforge.net/projects/subread/files/subread-1.5.1/subread-1.5.1-source.tar.gz
+	lnk=https://sourceforge.net/projects/subread/files/subread-1.6.0/subread-1.6.0-source.tar.gz
 	fle=`echo $lnk | awk -F "/" '{ print $NF}'`
 	wget -nv $lnk
 	tar -zxf $fle
@@ -171,13 +172,15 @@ function_install_HISAT2() {
 	lnk=ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-2.0.3-beta-source.zip
 	lnk=ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-2.0.4-source.zip
 	lnk=ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-2.0.5-source.zip
+	lnk=ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-2.1.0-source.zip
 	wget -nv $lnk
 	fle=`echo $lnk | awk -F "/" '{ print $NF}'`
 	unzip -q $fle
 	ad=$PI_HOME/Applications/`unzip -l $fle | head -n 5 | tail -n 1 | awk '{ print $NF}' | awk -F '/' '{ print $1}'`
 	mkdir -p $ad/bin
 	pushd `basename $ad`
-	gmake
+	#gmake
+	make
 	cp hisat2 hisat2-build* hisat2-align* hisat2-inspect* hisat2*py $ad/bin
 	popd
 }
@@ -470,10 +473,12 @@ function_install_chromHMM() {
 
 function_install_parallel() {
 	lnk=http://ftp.gnu.org/gnu/parallel/parallel-20160122.tar.bz2
+	#lnk=http://ftp.gnu.org/gnu/parallel/parallel-20171022.tar.bz2
 	fle=`echo $lnk | awk -F "/" '{ print $NF}'`
 	wget -nv $lnk
 	tar -xjf $fle
 	ad=$PI_HOME/Applications/parallel-20160122
+	#ad=$PI_HOME/Applications/parallel-20171022
 	pushd `basename $ad`
 	./configure --prefix=$ad
 	make -j 16
@@ -952,19 +957,16 @@ function_install_texlive() { #TODO
 }
 
 
-function_install_bedtools() {
+function_install_bedtools2() {
 	lnk=https://github.com/arq5x/bedtools2/archive/master.zip
+  lnk=https://github.com/arq5x/bedtools2/releases/download/v2.26.0/bedtools-2.26.0.tar.gz
+	fle=`echo $lnk | awk -F "/" '{ print $NF}'`
 	wget -nv $lnk
-	fles=`echo $lnk | awk -F "/" '{ print $NF}'`
-	fle=bedtools2-`echo $lnk | awk -F "/" '{ print $NF}'`
-	ad=$PI_HOME/Applications/`unzip -l $fle | head -n 5 | tail -n 1 | awk '{ print $NF}' | awk -F '/' '{ print $1}'`
-	mv $fles $fle
-	unzip -q $fle
-	d=`basename $fle .zip`; mkdir -p $d;
-	pushd $d
-	make -j 8
-
+	tar -zxf $fle
+	ad=$PI_HOME/Applications/`tar -zxvf $fle | head -n 1 | awk -F "/" '{ print $1}'`
 	mkdir -p $ad/bin $ad/aux
+	pushd `basename $ad`
+	make -j 8
 	cp -rf bin/bedtools $ad/bin/.
 	cp -rf genomes $ad/aux/genomes
 	popd
@@ -1033,8 +1035,9 @@ function_install_htslib() {
 
 }
 function_install_bcftools() {
-	#lnk=http://sourceforge.net/projects/samtools/files/samtools/1.2/samtools-1.2.tar.bz2
 	lnk=https://sourceforge.net/projects/samtools/files/samtools/1.3.1/bcftools-1.3.1.tar.bz2
+	#lnk=http://sourceforge.net/projects/samtools/files/samtools/1.2/samtools-1.2.tar.bz2
+  lnk=https://sourceforge.net/projects/samtools/files/samtools/1.6/samtools-1.6.tar.bz2
 	fle=`echo $lnk | awk -F "/" '{ print $NF}'`
 	wget -nv $lnk
 	tar -xjf $fle
